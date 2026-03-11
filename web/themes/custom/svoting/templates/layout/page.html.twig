@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Theme override to display a single Drupal page.
+ */
+#}
+
+<div>
+
+  <header>
+    <a href="{{ front_page }}">Simple Voting</a>
+    {% if logged_in %}
+      <nav>
+        {% if page.header %}{{ page.header }}{% endif %}
+        {{ page.primary_menu }}
+      </nav>
+    {% endif %}
+  </header>
+
+  {% if page.highlighted %}{{ page.highlighted }}{% endif %}
+  {% if page.breadcrumb %}{{ page.breadcrumb }}{% endif %}
+
+  <main>
+    {% if page.messages %}{{ page.messages }}{% endif %}
+    {% if page.content_top %}{{ page.content_top }}{% endif %}
+    {{ page.content }}
+    {% if page.content_bottom %}{{ page.content_bottom }}{% endif %}
+  </main>
+
+  <footer>
+    {% if page.footer %}{{ page.footer }}{% endif %}
+  </footer>
+
+</div>

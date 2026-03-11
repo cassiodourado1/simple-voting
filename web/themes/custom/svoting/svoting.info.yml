@@ -1,0 +1,5 @@
+name: Simple Voting Theme
+type: theme
+description: "Tema minimalista do Simple Voting."
+core_version_requirement: ^10 || ^11
+base theme: false
