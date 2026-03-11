@@ -1,24 +1,28 @@
 name: simple-voting
-recipe: drupal10
-
-config:
-  webroot: web
-  php: '8.2'
-  via: apache
-  database: mysql:8.0
-  xdebug: false
 
 services:
   appserver:
+    type: php:8.2
+    via: apache
+    webroot: web
+    xdebug: false
     overrides:
       environment:
         PHP_MEMORY_LIMIT: 512M
 
+  database:
+    type: mariadb:10.6
+    portforward: true
+    creds:
+      database: drupal
+      user: drupal
+      password: drupal
+
 tooling:
   composer:
+    service: appserver
+  php:
     service: appserver
   drush:
     service: appserver
     cmd: /app/vendor/bin/drush
-  php:
-    service: appserver
