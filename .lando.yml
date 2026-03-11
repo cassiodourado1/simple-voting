@@ -1,0 +1,24 @@
+name: simple-voting
+recipe: drupal10
+
+config:
+  webroot: web
+  php: '8.2'
+  via: apache
+  database: mysql:8.0
+  xdebug: false
+
+services:
+  appserver:
+    overrides:
+      environment:
+        PHP_MEMORY_LIMIT: 512M
+
+tooling:
+  composer:
+    service: appserver
+  drush:
+    service: appserver
+    cmd: /app/vendor/bin/drush
+  php:
+    service: appserver
