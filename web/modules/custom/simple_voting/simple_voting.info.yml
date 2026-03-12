@@ -3,3 +3,5 @@ type: module
 description: "Simple voting module."
 core_version_requirement: ^10 || ^11
 package: Custom
+dependencies:
+  - image

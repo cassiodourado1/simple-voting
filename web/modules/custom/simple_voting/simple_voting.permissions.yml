@@ -1,1 +1,12 @@
-# Permissions for Simple Voting module.
+administer voting questions:
+  title: "Administer voting questions"
+  description: "Create, edit and delete voting questions and options."
+  restrict access: true
+
+cast vote:
+  title: "Cast a vote"
+  description: "Allow users to vote on questions."
+
+view voting results:
+  title: "View voting results"
+  description: "View vote totals regardless of per-question show_results setting."

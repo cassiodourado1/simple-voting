@@ -1,1 +1,21 @@
 # Menu links for Simple Voting module.
+
+simple_voting.admin:
+  title: "Simple Voting"
+  description: "Manage voting questions and settings."
+  route_name: simple_voting.question_list
+  parent: system.admin
+  weight: 50
+
+simple_voting.questions:
+  title: "Questions"
+  route_name: simple_voting.question_list
+  parent: simple_voting.admin
+  weight: 1
+
+simple_voting.settings:
+  title: "Settings"
+  description: "Configure global voting settings."
+  route_name: simple_voting.settings
+  parent: simple_voting.admin
+  weight: 10

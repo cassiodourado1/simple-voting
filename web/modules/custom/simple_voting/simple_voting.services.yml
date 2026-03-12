@@ -1,1 +1,8 @@
 services:
+  simple_voting.voting_manager:
+    class: Drupal\simple_voting\Service\VotingManager
+    arguments:
+      - "@config.factory"
+      - "@entity_type.manager"
+      - "@database"
+      - "@logger.factory"

@@ -1,1 +1,74 @@
 # Routes for Simple Voting module.
+
+# ── Admin: Settings ──────────────────────────────────────────────────────────
+
+simple_voting.settings:
+  path: "/admin/config/simple-voting/settings"
+  defaults:
+    _form: 'Drupal\simple_voting\Form\VotingSettingsForm'
+    _title: "Simple Voting Settings"
+  requirements:
+    _permission: "administer voting questions"
+
+# ── Admin: Questions ──────────────────────────────────────────────────────────
+
+simple_voting.question_list:
+  path: "/admin/simple-voting/questions"
+  defaults:
+    _entity_list: "voting_question"
+    _title: "Voting Questions"
+  requirements:
+    _permission: "administer voting questions"
+
+# ── CMS: Vote page ────────────────────────────────────────────────────────────
+
+simple_voting.vote:
+  path: "/voting/{voting_question}"
+  defaults:
+    _form: 'Drupal\simple_voting\Form\VotingVoteForm'
+    _title: "Vote"
+  requirements:
+    _permission: "cast vote"
+    voting_question: \d+
+
+# ── API v1 ────────────────────────────────────────────────────────────────────
+
+simple_voting.api.questions:
+  path: "/api/v1/voting/questions"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\Api\QuestionController::list'
+  requirements:
+    _user_is_logged_in: "TRUE"
+  options:
+    _auth: ["basic_auth", "cookie"]
+  methods: [GET]
+
+simple_voting.api.question_detail:
+  path: "/api/v1/voting/questions/{uuid}"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\Api\QuestionController::detail'
+  requirements:
+    _user_is_logged_in: "TRUE"
+  options:
+    _auth: ["basic_auth", "cookie"]
+  methods: [GET]
+
+simple_voting.api.vote:
+  path: "/api/v1/voting/questions/{uuid}/vote"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\Api\VoteController::submit'
+  requirements:
+    _permission: "cast vote"
+  options:
+    _auth: ["basic_auth", "cookie"]
+  methods: [POST]
+
+simple_voting.api.results:
+  path: "/api/v1/voting/questions/{uuid}/results"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\Api\ResultController::show'
+  requirements:
+    _user_is_logged_in: "TRUE"
+  options:
+    _auth: ["basic_auth", "cookie"]
+  methods: [GET]

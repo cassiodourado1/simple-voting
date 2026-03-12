@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Simple Voting module.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_install().
+ *
+ * Adiciona uma unique key em voting_record para (question_id, user_id).
+ *
+ * Essa constraint é a principal garantia contra voto duplicado em cenários
+ * de alta concorrência. Mesmo que duas requisições passem pela validação
+ * de negócio ao mesmo tempo, apenas uma consegue persistir — a outra
+ * recebe um erro de unicidade do banco.
+ */
+function simple_voting_install(): void {
+  $schema = Database::getConnection()->schema();
+
+  if ($schema->tableExists('voting_record')) {
+    $schema->addUniqueKey('voting_record', 'unique_user_question_vote', [
+      'question_id',
+      'user_id',
+    ]);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Remove a configuração do módulo ao desinstalar.
+ */
+function simple_voting_uninstall(): void {
+  \Drupal::configFactory()
+    ->getEditable('simple_voting.settings')
+    ->delete();
+}
