@@ -2,9 +2,186 @@
   "info": {
     "_postman_id": "simple-voting-collection",
     "name": "Simple Voting API",
-    "description": "REST API collection for the simple_voting Drupal module.\n\nAuthentication: HTTP Basic Auth (username: admin, password: admin).\n\nBase URL variable: {{base_url}} — set it to your Lando host, e.g. http://localhost:61513",
+    "description": "Coleção REST para o módulo simple_voting no Drupal.\n\n**Autenticação:** HTTP Basic Auth — usuário `admin`, senha `admin`.\n\n**Variáveis disponíveis:**\n- `base_url` — URL base do Lando (ex: `http://localhost:61513`)\n- `uuid_cachorro` — Qual a raça de cachorro mais bonita? (opções: 4, 5, 6, 7)\n- `uuid_gato` — Qual a raça de gato mais bonita? (opções: 8, 9, 10, 11)\n- `uuid_celular` — Qual o melhor celular de 2025? (opções: 12, 13, 14)\n\nAtualize `base_url` com a porta exibida pelo `lando start`.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:61513",
+      "type": "string",
+      "description": "URL base do ambiente Lando. Atualize com a porta exibida pelo lando start."
+    },
+    {
+      "key": "uuid_cachorro",
+      "value": "0a843847-1e1c-11f1-86b8-0242ac140002",
+      "type": "string",
+      "description": "Qual a raça de cachorro mais bonita? — opções: 4 (Chow Chow), 5 (Husky), 6 (São Bernardo), 7 (Akita)"
+    },
+    {
+      "key": "uuid_gato",
+      "value": "0a906b13-8de2-4901-bcdc-0bb1b4b6f196",
+      "type": "string",
+      "description": "Qual a raça de gato mais bonita? — opções: 8 (Maine Coon), 9 (Ragdoll), 10 (Bengal), 11 (Persa)"
+    },
+    {
+      "key": "uuid_celular",
+      "value": "99dff6ce-cf65-47a5-ba0e-2bcffe6ddf30",
+      "type": "string",
+      "description": "Qual o melhor celular de 2025? — opções: 12 (iPhone 17 Pro Max), 13 (Samsung Galaxy S26 Ultra), 14 (Google Pixel 10 Pro)"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "admin", "type": "string" },
+      { "key": "password", "value": "admin", "type": "string" }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. Listar perguntas ativas",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions"]
+        },
+        "description": "Retorna um array JSON com todas as perguntas ativas (uuid + title + show_results)."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "[\n  {\n    \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n    \"title\": \"Qual a raça de cachorro mais bonita?\",\n    \"show_results\": true\n  },\n  {\n    \"uuid\": \"0a906b13-8de2-4901-bcdc-0bb1b4b6f196\",\n    \"title\": \"Qual a raça de gato mais bonita?\",\n    \"show_results\": true\n  },\n  {\n    \"uuid\": \"99dff6ce-cf65-47a5-ba0e-2bcffe6ddf30\",\n    \"title\": \"Qual o melhor celular de 2025?\",\n    \"show_results\": true\n  }\n]",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "2. Detalhe da pergunta",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid_cachorro}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid_cachorro}}"]
+        },
+        "description": "Retorna os dados da pergunta e suas opções de resposta.\n\nTroque `{{uuid_cachorro}}` por `{{uuid_gato}}` ou `{{uuid_celular}}` para testar outras perguntas."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n  \"title\": \"Qual a raça de cachorro mais bonita?\",\n  \"show_results\": true,\n  \"options\": [\n    { \"id\": \"4\", \"title\": \"Chow Chow\" },\n    { \"id\": \"5\", \"title\": \"Husky\" },\n    { \"id\": \"6\", \"title\": \"São Bernardo\" },\n    { \"id\": \"7\", \"title\": \"Akita\" }\n  ]\n}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "404 Not Found",
+          "status": "Not Found",
+          "code": 404,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Question not found.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "3. Registrar voto",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"option_id\": 4\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid_cachorro}}/vote",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid_cachorro}}", "vote"]
+        },
+        "description": "Registra o voto do usuário autenticado na pergunta informada.\n\n`option_id` deve ser um ID válido de opção que pertence à pergunta.\n\n**Opções disponíveis para uuid_cachorro:** 4 (Chow Chow), 5 (Husky), 6 (São Bernardo), 7 (Akita)\n**Opções disponíveis para uuid_gato:** 8 (Maine Coon), 9 (Ragdoll), 10 (Bengal), 11 (Persa)\n**Opções disponíveis para uuid_celular:** 12 (iPhone 17 Pro Max), 13 (Samsung Galaxy S26 Ultra), 14 (Google Pixel 10 Pro)\n\nRetorna 201 em caso de sucesso. A votação deve estar globalmente habilitada e a pergunta deve estar ativa."
+      },
+      "response": [
+        {
+          "name": "201 Created — voto registrado",
+          "status": "Created",
+          "code": 201,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Vote registered successfully.\"}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "400 Bad Request — option_id inválido",
+          "status": "Bad Request",
+          "code": 400,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Invalid or missing option_id.\"}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "403 Forbidden — votação desabilitada",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Voting is currently disabled.\"}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "422 Unprocessable — já votou",
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"You have already voted on this question.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "4. Resultados da votação",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid_cachorro}}/results",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid_cachorro}}", "results"]
+        },
+        "description": "Retorna a contagem de votos por opção com valor absoluto e percentual.\n\nRetorna 403 se a pergunta tiver `show_results` desativado.\n\nTroque `{{uuid_cachorro}}` por `{{uuid_gato}}` ou `{{uuid_celular}}` para consultar outras perguntas."
+      },
+      "response": [
+        {
+          "name": "200 OK — resultados",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n  \"title\": \"Qual a raça de cachorro mais bonita?\",\n  \"total\": 2,\n  \"options\": [\n    { \"id\": \"4\", \"title\": \"Chow Chow\",   \"votes\": 2, \"percentage\": 100 },\n    { \"id\": \"5\", \"title\": \"Husky\",        \"votes\": 0, \"percentage\": 0 },\n    { \"id\": \"6\", \"title\": \"São Bernardo\", \"votes\": 0, \"percentage\": 0 },\n    { \"id\": \"7\", \"title\": \"Akita\",        \"votes\": 0, \"percentage\": 0 }\n  ]\n}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "403 Forbidden — resultados ocultos",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Results are not available for this question.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    }
+  ]
+}
+
   "variable": [
     {
       "key": "base_url",
