@@ -2,20 +2,28 @@
 
 simple_voting.admin:
   title: "Simple Voting"
-  description: "Manage voting questions and settings."
+  description: "Gerenciar votações."
   route_name: simple_voting.question_list
   parent: system.admin
   weight: 50
 
 simple_voting.questions:
-  title: "Questions"
+  title: "Listar Perguntas"
+  description: "Ver todas as perguntas cadastradas."
   route_name: simple_voting.question_list
   parent: simple_voting.admin
   weight: 1
 
+simple_voting.add_question:
+  title: "Adicionar Pergunta"
+  description: "Cadastrar uma nova pergunta de votação."
+  route_name: entity.voting_question.add_form
+  parent: simple_voting.admin
+  weight: 2
+
 simple_voting.settings:
-  title: "Settings"
-  description: "Configure global voting settings."
+  title: "Configurações"
+  description: "Habilitar ou desabilitar votações globalmente."
   route_name: simple_voting.settings
   parent: simple_voting.admin
   weight: 10

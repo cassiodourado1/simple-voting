@@ -12,21 +12,38 @@ simple_voting.settings:
 
 # ── Admin: Questions ──────────────────────────────────────────────────────────
 
+simple_voting.question_options:
+  path: "/admin/simple-voting/questions/{voting_question}/options"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\VotingOptionAdminController::listing'
+    _title: "Opções da Pergunta"
+  requirements:
+    _permission: "administer voting questions"
+    voting_question: \d+
+
 simple_voting.question_list:
   path: "/admin/simple-voting/questions"
   defaults:
     _entity_list: "voting_question"
-    _title: "Voting Questions"
+    _title: "Perguntas de Votação"
   requirements:
     _permission: "administer voting questions"
 
 # ── CMS: Vote page ────────────────────────────────────────────────────────────
 
+simple_voting.list:
+  path: "/voting"
+  defaults:
+    _controller: 'Drupal\simple_voting\Controller\VotingListController::listing'
+    _title: "Votações"
+  requirements:
+    _access: "TRUE"
+
 simple_voting.vote:
   path: "/voting/{voting_question}"
   defaults:
     _form: 'Drupal\simple_voting\Form\VotingVoteForm'
-    _title: "Vote"
+    _title: "Votar"
   requirements:
     _permission: "cast vote"
     voting_question: \d+

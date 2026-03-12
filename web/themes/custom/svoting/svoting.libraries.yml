@@ -1,1 +1,5 @@
 # Libraries do tema svoting.
+global:
+  css:
+    theme:
+      css/svoting.css: {}

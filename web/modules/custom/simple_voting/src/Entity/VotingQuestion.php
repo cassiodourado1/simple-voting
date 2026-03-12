@@ -69,16 +69,16 @@ class VotingQuestion extends ContentEntityBase {
 
     // Se a pergunta está ativa para receber votos.
     $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Active'))
-      ->setDescription(t('Whether this question is open for voting.'))
+      ->setLabel(t('Ativo'))
+      ->setDescription(t('Se esta pergunta está aberta para votação.'))
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', ['type' => 'boolean_checkbox', 'weight' => 10])
       ->setDisplayConfigurable('form', TRUE);
 
     // Se o total de votos deve ser exibido após votar.
     $fields['show_results'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Show results after vote'))
-      ->setDescription(t('Whether to display vote totals after the user votes.'))
+      ->setLabel(t('Exibir resultados após o voto'))
+      ->setDescription(t('Se o total de votos deve ser exibido para o usuário após votar.'))
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', ['type' => 'boolean_checkbox', 'weight' => 11])
       ->setDisplayConfigurable('form', TRUE);

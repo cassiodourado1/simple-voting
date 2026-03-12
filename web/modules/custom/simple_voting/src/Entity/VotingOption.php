@@ -13,13 +13,13 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *
  * @ContentEntityType(
  *   id = "voting_option",
- *   label = @Translation("Voting Option"),
- *   label_collection = @Translation("Voting Options"),
- *   label_singular = @Translation("voting option"),
- *   label_plural = @Translation("voting options"),
+ *   label = @Translation("Opção de Votação"),
+ *   label_collection = @Translation("Opções de Votação"),
+ *   label_singular = @Translation("opção de votação"),
+ *   label_plural = @Translation("opções de votação"),
  *   label_count = @PluralTranslation(
- *     singular = "@count voting option",
- *     plural = "@count voting options",
+ *     singular = "@count opção de votação",
+ *     plural = "@count opções de votação",
  *   ),
  *   handlers = {
  *     "storage" = "Drupal\Core\Entity\Sql\SqlContentEntityStorage",
@@ -58,7 +58,7 @@ class VotingOption extends ContentEntityBase {
 
     // Referência à pergunta que esta opção pertence.
     $fields['question_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Question'))
+      ->setLabel(t('Pergunta'))
       ->setRequired(TRUE)
       ->setSetting('target_type', 'voting_question')
       ->setDisplayOptions('form', ['type' => 'entity_reference_autocomplete', 'weight' => 0])
@@ -66,7 +66,7 @@ class VotingOption extends ContentEntityBase {
 
     // Título da opção (ex: "Sim", "Não", "Candidato A").
     $fields['title'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Title'))
+      ->setLabel(t('Título'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', ['type' => 'string_textfield', 'weight' => 1])
@@ -75,14 +75,14 @@ class VotingOption extends ContentEntityBase {
 
     // Descrição curta opcional da opção.
     $fields['description'] = BaseFieldDefinition::create('string_long')
-      ->setLabel(t('Description'))
+      ->setLabel(t('Descrição'))
       ->setDisplayOptions('form', ['type' => 'string_textarea', 'weight' => 2])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
     // Imagem opcional da opção.
     $fields['image'] = BaseFieldDefinition::create('image')
-      ->setLabel(t('Image'))
+      ->setLabel(t('Imagem'))
       ->setSettings([
         'file_extensions' => 'png jpg jpeg webp',
         'alt_field'       => TRUE,
@@ -93,8 +93,8 @@ class VotingOption extends ContentEntityBase {
 
     // Peso para ordenação das opções.
     $fields['weight'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Weight'))
-      ->setDescription(t('Used to order options within a question.'))
+      ->setLabel(t('Peso'))
+      ->setDescription(t('Define a ordem de exibição das opções.'))
       ->setDefaultValue(0)
       ->setDisplayOptions('form', ['type' => 'number', 'weight' => 4])
       ->setDisplayConfigurable('form', TRUE);

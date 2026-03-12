@@ -1,0 +1,427 @@
+/* ── Voting list (home) ──────────────────────────────────────────────────── */
+
+.voting-list {
+  margin-top: 2.5rem;
+}
+
+.voting-list-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.voting-question-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+  margin-bottom: 0.5rem;
+  transition: box-shadow 0.15s;
+}
+
+.voting-question-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.voting-question-title {
+  font-size: 0.95rem;
+  color: #1e1b4b;
+  font-weight: 500;
+}
+
+.voting-vote-link {
+  background: #6366f1;
+  color: #fff !important;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.voting-vote-link:hover {
+  background: #4f46e5;
+}
+
+.voting-vote-link--voted {
+  background: #059669;
+}
+
+.voting-vote-link--voted:hover {
+  background: #047857;
+}
+
+/* ── Voting form card ─────────────────────────────────────────────────────── */
+
+.simple-voting-vote-form,
+.block-simple-voting-block {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+.simple-voting-vote-form h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 1.25rem;
+}
+
+/* Radio fieldset */
+.simple-voting-vote-form .js-form-item-option-id {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.simple-voting-vote-form .js-form-type-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  background: #fff;
+}
+
+.simple-voting-vote-form .js-form-type-radio:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.simple-voting-vote-form .js-form-type-radio:has(input:checked) {
+  border-color: #6366f1;
+  background: #eef2ff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.simple-voting-vote-form .js-form-type-radio input[type="radio"] {
+  accent-color: #6366f1;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.simple-voting-vote-form .js-form-type-radio label {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* Option body inside label */
+.voting-option-body {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.voting-option-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  border: 1px solid #e5e7eb;
+}
+
+.voting-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.voting-option-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e1b4b;
+}
+
+.voting-option-desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+/* Submit button */
+.simple-voting-vote-form .form-submit {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.65rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.simple-voting-vote-form .form-submit:hover {
+  background: #4f46e5;
+}
+
+/* Results list */
+.simple-voting-vote-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.simple-voting-vote-form ul li {
+  padding: 0.55rem 0.9rem;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Status / error messages */
+.messages--status {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.messages--error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ── Admin / generic forms ───────────────────────────────────────────────── */
+
+.voting-option-question-context {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: #3730a3;
+}
+
+.voting-option-question-label {
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.voting-option-question-title {
+  font-weight: 500;
+}
+
+.layout-container,
+.block-system-main-block {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+h1.page-title,
+h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 1.5rem;
+}
+
+/* Labels */
+.form-item label,
+label.option {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.3rem;
+}
+
+/* Text inputs and textareas */
+.form-item input[type="text"],
+.form-item input[type="email"],
+.form-item input[type="password"],
+.form-item input[type="number"],
+.form-item textarea,
+.form-item select {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.form-item input[type="text"]:focus,
+.form-item textarea:focus,
+.form-item select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Field description */
+.form-item .description,
+.form-item--description {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox rows */
+.form-type--checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: #f9fafb;
+}
+
+.form-type--checkbox input[type="checkbox"] {
+  margin-top: 0.15rem;
+  accent-color: #6366f1;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.form-type--checkbox label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0;
+}
+
+/* Spacing between form items */
+.form-item {
+  margin-bottom: 1.25rem;
+}
+
+/* Submit / action buttons */
+.form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+input.button,
+input.button--primary,
+.button,
+.button--primary {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s;
+}
+
+input.button:hover,
+.button:hover,
+.button--primary:hover {
+  background: #4f46e5;
+}
+
+input.button--danger,
+.button--danger {
+  background: #ef4444;
+}
+
+input.button--danger:hover,
+.button--danger:hover {
+  background: #dc2626;
+}
+
+/* Back link */
+.voting-back-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.voting-back-link:hover {
+  text-decoration: underline;
+  color: #4f46e5;
+}
+
+/* Admin table */
+.views-table,
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+table th {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 700;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+table tr:hover td {
+  background: #f9fafb;
+}
+
+/* Add button above table */
+.button-action {
+  margin-bottom: 1rem;
+  display: inline-block;
+}
