@@ -1,0 +1,162 @@
+{
+  "info": {
+    "_postman_id": "simple-voting-collection",
+    "name": "Simple Voting API",
+    "description": "REST API collection for the simple_voting Drupal module.\n\nAuthentication: HTTP Basic Auth (username: admin, password: admin).\n\nBase URL variable: {{base_url}} — set it to your Lando host, e.g. http://localhost:61513",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:61513",
+      "type": "string"
+    },
+    {
+      "key": "uuid",
+      "value": "0a843847-1e1c-11f1-86b8-0242ac140002",
+      "type": "string",
+      "description": "UUID of the question created during setup (Qual a raça de cachorro mais bonita?)"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "admin", "type": "string" },
+      { "key": "password", "value": "admin", "type": "string" }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. List active questions",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions"]
+        },
+        "description": "Returns a JSON array of all active voting questions (uuid + title + show_results)."
+      },
+      "response": [
+        {
+          "name": "200 OK — list",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "[\n  {\n    \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n    \"title\": \"Qual a raça de cachorro mais bonita?\",\n    \"show_results\": true\n  }\n]",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "2. Get question detail",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid}}"]
+        },
+        "description": "Returns the question data plus all its answer options."
+      },
+      "response": [
+        {
+          "name": "200 OK — detail",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n  \"title\": \"Qual a raça de cachorro mais bonita?\",\n  \"show_results\": true,\n  \"options\": [\n    { \"id\": \"4\", \"title\": \"Chow Chow\" },\n    { \"id\": \"5\", \"title\": \"Husky\" },\n    { \"id\": \"6\", \"title\": \"São Bernardo\" },\n    { \"id\": \"7\", \"title\": \"Akita\" }\n  ]\n}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "404 Not Found",
+          "status": "Not Found",
+          "code": 404,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Question not found.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "3. Cast a vote",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"option_id\": 1\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid}}/vote",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid}}", "vote"]
+        },
+        "description": "Registers a vote for the authenticated user on the given question.\n\n`option_id` must be a valid option belonging to this question.\n\nReturns 201 on success. Voting must be globally enabled and the question must be active."
+      },
+      "response": [
+        {
+          "name": "201 Created — vote registered",
+          "status": "Created",
+          "code": 201,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Vote registered successfully.\"}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "422 — already voted",
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"You have already voted on this question.\"}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "403 — voting disabled",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Voting is currently disabled.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    },
+    {
+      "name": "4. Get results",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": {
+          "raw": "{{base_url}}/api/v1/voting/questions/{{uuid}}/results",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "voting", "questions", "{{uuid}}", "results"]
+        },
+        "description": "Returns the vote tally for each option with absolute count and percentage.\n\nReturns 403 if the question has `show_results` set to false."
+      },
+      "response": [
+        {
+          "name": "200 OK — results",
+          "status": "OK",
+          "code": 200,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"uuid\": \"0a843847-1e1c-11f1-86b8-0242ac140002\",\n  \"title\": \"Qual a raça de cachorro mais bonita?\",\n  \"total\": 0,\n  \"options\": [\n    { \"id\": \"4\", \"title\": \"Chow Chow\",    \"votes\": 0, \"percentage\": 0 },\n    { \"id\": \"5\", \"title\": \"Husky\",        \"votes\": 0, \"percentage\": 0 },\n    { \"id\": \"6\", \"title\": \"São Bernardo\", \"votes\": 0, \"percentage\": 0 },\n    { \"id\": \"7\", \"title\": \"Akita\",        \"votes\": 0, \"percentage\": 0 }\n  ]\n}",
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "name": "403 — results hidden",
+          "status": "Forbidden",
+          "code": 403,
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\"message\": \"Results are not available for this question.\"}",
+          "_postman_previewlanguage": "json"
+        }
+      ]
+    }
+  ]
+}
